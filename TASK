@@ -1,0 +1,15 @@
+Task is:
+
+Read a CSV file, containing three columns and a header row.
+
+name,integer,float
+Foxtrot,6,0.657
+
+Multiply the two numbers together, then print output, one per line, like:
+printf("%s is %.02f") where %s is the first column and %f is the result of the
+multiplication.
+
+Time how long it takes, starting from before you open the file to read.
+ie. To time almost everything in the program, except the start-up cost of the
+interpreter, JVM, etc.
+
