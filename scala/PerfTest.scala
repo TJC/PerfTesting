@@ -1,4 +1,6 @@
 import scala.io.Source
+import au.com.bytecode.opencsv.CSVReader // from opencsv.sf.net
+import java.io.FileReader // for CSVReader
 
 object PerfTest {
     def main(args: Array[String]) {
@@ -18,15 +20,22 @@ object PerfTest {
     }
 
     def csvparser(filename: String) {
-        val input = Source.fromPath(filename).getLines()
-        // skip header line:
-        val header = input.next
+        val reader = new CSVReader(new FileReader(filename))
 
-        input.foreach(csv_line)
+        // val input = Source.fromPath(filename).getLines()
+        // skip header line:
+        val header = reader.readNext()
+
+        do {
+            val nextLine = reader.readNext()
+            nextLine match {
+                case null => return
+                case _ => csv_line(nextLine)
+            }
+        } while (true)
     }
 
-    def csv_line(line: String) {
-        val columns = line.split(",")
+    def csv_line(columns: Array[String]) {
 
         val name = columns(0)
         val result = columns(1).toDouble * columns(2).toDouble

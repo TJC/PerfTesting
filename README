@@ -16,7 +16,7 @@ somewhere. For example:
 
 
 In my testing, I was using
-Scala 2.8.0.RC1 on Sun JRE 1.6.0.20
+Scala 2.8.0.RC1 on Java 1.6, w/OpenCSV.sf.net
 Perl 5.10.1 w/Text::CSV 1.17 and Text::CSV_XS 0.72
 Go (May 2010 build)
 
