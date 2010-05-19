@@ -21,28 +21,23 @@ Perl 5.10.1 w/Text::CSV 1.17 and Text::CSV_XS 0.72
 Go (May 2010 build)
 
 I received the following results:
-With a 10,000 row CSV file, they looked like:
+With a 100,000 row CSV file, they looked like:
 Perl - 1.089 secs
-Scala - 2.729 secs
+Scala - 1.857 secs
 Go - 1.682 secs
 
-With a 100,000 row file:
+With a 1,000,000 row file:
 Perl - 10.96 s
-Scala - 13.31 s
+Scala - 9.835 s
 Go - 16.77 s
 
-With a 1,000,000 row file:
+With a 10,000,000 row file:
 Perl - 111.3 s
-Scala - 115.5 s
+Scala - 89.05 s
 Go - 154.3 s
 
 
 I am interested to receive (sensible) optimisations and improvements to the
 code, and even implementations in other languages. (I'd love to see some in C,
 C++, Ruby and Python, for starters. I'll probably do them myself, eventually.)
-
-
-Known problems:
-I couldn't find a Scala CSV parsing library quickly, and so it is just using a
-simple String.split(","). This should be rectified and the tests re-run.
 
