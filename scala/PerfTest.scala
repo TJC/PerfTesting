@@ -2,9 +2,11 @@ import scala.io.Source
 import au.com.bytecode.opencsv.CSVReader // from opencsv.sf.net
 import java.io.FileReader // for CSVReader
 import java.io.BufferedOutputStream
+import java.text.DecimalFormat
 
 object PerfTest {
     val output = new BufferedOutputStream(System.out)
+    val formatter = new DecimalFormat("0.00")
 
     def main(args: Array[String]) {
         if (args.length < 1) {
@@ -43,8 +45,14 @@ object PerfTest {
         val name = columns(0)
         val result = columns(1).toDouble * columns(2).toDouble
 
-        //val formatted = String.format("%s is %.02f\n", name, result)
-        val formatted = "%s is %.02f\n".format(name, result)
+        // val formatted = "%s is %.02f\n".format(name, result)
+
+        val formatted = (columns(0) + " is "
+            + formatter.format(
+                columns(1).toDouble * columns(2).toDouble
+            )
+            + "\n")
+
         output.write(formatted.getBytes)
         // printf("%s is %.02f\n", name, result);
     }
