@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use autodie;
-use Text::CSV;
+use Text::CSV_XS;
 use IO::File;
 use IO::Handle;
 use Benchmark ':hireswallclock';
@@ -14,26 +14,22 @@ unless ($filename and -f $filename) {
 
 my $result = timeit(1, sub {
 
-    my $csv = Text::CSV->new;
+    my $csv = Text::CSV_XS->new;
     my $fh = IO::File->new("<$filename");
-    my $output = IO::Handle->new->fdopen(fileno(STDOUT), 'w');
-    $output->autoflush(0);
-
 
     my $header = $csv->getline($fh);
-    $csv->column_names(@$header);
+    # $csv->column_names(@$header);
 
     while (not $csv->eof) {
-        my $cols = $csv->getline_hr($fh);
+        my $cols = $csv->getline($fh);
         next unless $cols;
-        $output->printf('%s is %.02f%s',
-            $cols->{name},
-            ($cols->{'integer'} * $cols->{'float'}),
+        printf('%s is %.02f%s',
+            $cols->[0],
+            ($cols->[1] * $cols->[2]),
             "\n"
         );
     }
 
-    $output->close;
     $fh->close;
 });
 
