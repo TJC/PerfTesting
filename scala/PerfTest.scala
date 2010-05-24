@@ -5,8 +5,6 @@ import java.io.BufferedOutputStream
 import java.text.DecimalFormat
 
 object PerfTest {
-    val output = new BufferedOutputStream(System.out)
-    val formatter = new DecimalFormat("0.00")
 
     def main(args: Array[String]) {
         if (args.length < 1) {
@@ -24,36 +22,37 @@ object PerfTest {
         System.err.println("Routine took: " + (t2 - t1).asInstanceOf[Float] + " msecs")
     }
 
+    val output = new BufferedOutputStream(System.out)
+    val formatter = new DecimalFormat("0.00")
+
     def csvparser(filename: String) {
         val reader = new CSVReader(new FileReader(filename))
 
-        // val input = Source.fromPath(filename).getLines()
         // skip header line:
         val header = reader.readNext()
 
-        do {
-            val nextLine = reader.readNext()
-            nextLine match {
-                case null => { output.flush; return; }
-                case _ => csv_line(nextLine)
-            }
-        } while (true)
+        do_rows(reader)
     }
 
-    def csv_line(columns: Array[String]) {
+    def do_rows(reader: CSVReader) {
 
-        val name = columns(0)
-        val result = columns(1).toDouble * columns(2).toDouble
+        reader.readNext() match {
+            case null => 
+                output.flush
+                return
 
-        // val formatted = "%s is %.02f\n".format(name, result)
+            case columns =>
+                output.write(
+                  (
+                    columns(0) + " is " + formatter.format(
+                        columns(1).toDouble * columns(2).toDouble
+                    ) + "\n"
+                  ).getBytes
+                )
 
-        val formatted = (columns(0) + " is "
-            + formatter.format(
-                columns(1).toDouble * columns(2).toDouble
-            )
-            + "\n")
+                do_rows(reader)
+        }
 
-        output.write(formatted.getBytes)
-        // printf("%s is %.02f\n", name, result);
     }
+
 }
