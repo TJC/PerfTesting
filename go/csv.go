@@ -1,7 +1,6 @@
 package csv
 
-// I found this package on the web somewhere, and now I can't find it again
-// to quote the source. I'm sorry, whoever you are :(
+// This entire package is from http://code.google.com/p/gocsv/
 
 import (
 	"bufio"
